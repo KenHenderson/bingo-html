@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bingo</title>
+
+  <link rel="stylesheet" type="text/css" href="css/main.css" />
+
+  <script src="javascript/react/16.0.0/react.production.min.js"></script>
+  <script src="javascript/react/16.0.0/react-dom.production.min.js"></script>
+  <script src="javascript/babel/7.7.6/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="wrapper">
+    <div id="contentliquid">
+    </div>
+  </div>
+
+  <script type="text/babel">
+    function initState() {
+    	const header=  [
+    		{ text:'B', header: true },
+    		{ text: 'I', header: true },
+    		{ text:'N', header: true },
+    		{ text:'G', header: true },
+    		{ text:'O', header: true}
+    	]
+			let values= [header]
+			for (let i=0; i < 15; i++) {
+			 	values.push([
+			 		{ text:header[0].text + (1+i), header:false, selected: false, row:i+1, column:0 }, 
+			 		{ text:header[1].text + (16+i), header:false, selected: false, row:i+1, column:1 }, 
+			 		{ text:header[2].text + (31+i), header:false, selected: false, row:i+1, column:2 }, 
+			 		{ text:header[3].text + (46+i), header:false, selected: false, row:i+1, column:3 }, 
+			 		{ text:header[4].text + (61+i), header:false, selected: false, row:i+1, column:4 }]) 
+			}
+
+			return { current: '', previous: '', values: values }
+		}
+		const state = initState()
+
+    function Cell(props) {
+    	    	return props.header 
+	    	? (<th>{props.text}</th>)
+	    	: (<td className={props.selected ? 'selected' : 'notSelected'}><button id={props.text} onClick={event => setToggled(props)}>{props.text}</button></td>)
+    }
+
+  	function Row(props) {
+  		const contents = props.columns.map(c=> { return <Cell {...c} /> })
+
+  		return (<tr>{contents}</tr>)
+  	}
+
+  	function Bingo(props) {
+  		const contents = state.values.map(c=> {
+  			return (
+  				<Row columns={c} />
+  			)
+  		})
+
+  		return (
+  			<div id="content">
+  				<div>
+		  			<div id="table">
+		  				<table>
+		  					{contents}
+		  				</table>
+		  			</div>
+		  			<div id="state">
+			  			<div>
+			  				<div className="current">Current: {state.current}</div>
+			  				<div className="previous">Previous: {state.previous}</div>
+			  			</div>
+		  			</div>
+	  			</div>
+	  			<div id="reset">
+		  		  	<button className="resetButton" onClick={()=>resetState()}>Reset</button>
+		  			</div>
+  			</div>
+  		)
+  	}
+
+  	function setToggled(props) {
+  		state.values[props.row][props.column].selected = !state.values[props.row][props.column].selected
+  		setState({current: props.text, previous: state.current})
+  	}
+
+  	function resetState() {
+  		const newState = initState()
+  		setState(newState)
+  	}
+
+    function setState(newState) {
+    	Object.assign(state, newState)
+    	renderApp()
+    }
+
+  	function renderApp() {
+	    ReactDOM.render(
+	    	<Bingo  />,
+	    	document.getElementById('contentliquid')
+	    )
+	  }
+
+	  renderApp()
+
+  </script>
+
+</body>
+
+</html>

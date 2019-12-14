@@ -15,3 +15,9 @@ This has no external dependencies so it can be run from any computer essentially
 # Tailoring night of event
 
 It's possible and even likely that the night of the event the CSS will need to be massaged to get this to load in the browser and show the whole page on the projected screen.  Most likely just the font sizes will need to be adjusted.
+
+# How to get this
+
+1. Download a ZIP from GitHub (Download button above the listing of files on this page).
+2. Extract the ZIP file.
+3. Open the file site/index.html using a browser.

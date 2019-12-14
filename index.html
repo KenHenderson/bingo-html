@@ -20,13 +20,147 @@
   </div>
 
   <script type="text/babel">
+  	const games = [
+  		{ 
+  			name: 'Regular Bingo',
+  			color: 'Blue',
+  			rgb: [0,0,255],
+  			fontColor: 'white',
+  			rules: 'Any five in a row, can be horizontal, vertical, or diagonally.', 
+  			selected: [
+  				[false, false, false, false, true],
+  				[false, false, false, true, false],
+  				[false, false, true, false, false],
+  				[false, true, false, false, false],
+  				[true, false, false, false, false]]
+  		},
+  		{ 
+  			name: 'Horizontal Bingo',
+  			color: 'Orange',
+  			rgb: [255,136,0],
+  			fontColor: 'black',
+  			rules: 'Any five in a row horizontally.', 
+  			selected: [
+  				[false, false, false, false, false],
+  				[true, true, true, true, true],
+  				[false, false, false, false, false],
+  				[false, false, false, false, false],
+  				[false, false, false, false, false]]
+  		},
+  		{ 
+  			name: 'Four Corners',
+  			color: 'Green',
+  			rgb: [0,255,0], 
+  			fontColor: 'black',
+  			rules: 'Just the 4 Corners', 
+  			selected: [
+  				[true, false, false, false, true],
+  				[false, false, false, false, false],
+  				[false, false, false, false, false],
+  				[false, false, false, false, false],
+  				[true, false, false, false, true]]
+  		},
+  		{ 
+  			name: 'Railroad Tracks', 
+  			color: 'Yellow',
+  			rgb: [255,255,0],
+  			fontColor: 'black',
+  			rules: '2 Vertical lines in columns 2 and 4', 
+  			selected: [
+  				[false, true, false, true, false],
+  				[false, true, false, true, false],
+  				[false, true, false, true, false],
+  				[false, true, false, true, false],
+  				[false, true, false, true, false]]
+  		},
+  		{ 
+  			name: 'Letter "T"',
+  			color: 'Pink',
+  			rgb: [255,136,255],
+  			fontColor: 'black', 
+  			rules: 'Makes the letter "T" from row 1 and column 3.', 
+  			selected: [
+  				[true, true, true, true, true],
+  				[false, false, true, false, false],
+  				[false, false, true, false, false],
+  				[false, false, true, false, false],
+  				[false, false, true, false, false]]
+  		},
+  		{ 
+  			name: 'Straight and 4 Corners',
+  			color: 'Grey',
+  			rgb: [102,102,102], 
+  			fontColor: 'white',
+  			rules: '4 Corners and any 5 in a row, can be horizontally, vertically, or diagonally.', 
+  			selected: [
+  				[true, false, false, false, true],
+  				[false, true, false, false, false],
+  				[false, false, true, false, false],
+  				[false, false, false, true, false],
+  				[true, false, false, false, true]]
+  		},
+  		{ 
+  			name: 'Bow Tie',
+  			color: 'Army Green',
+  			fontColor: 'white',
+  			rgb: [0,136,0], 
+  			rules: 'Looks like a bow tie on a diagonal.', 
+  			selected: [
+  				[true, true, false, false, false],
+  				[true, true, false, false, false],
+  				[false, false, true, false, false],
+  				[false, false, false, true, true],
+  				[false, false, false, true, true]]
+  		},
+  		{ 
+  			name: 'Letter "S"',
+  			color: 'Brown',
+  			fontColor: 'white',
+  			rgb: [68,34,0], 
+  			rules: 'Makes the letter "S".', 
+  			selected: [
+  				[true, true, true, true, true],
+  				[true, false, false, false, false],
+  				[true, true, true, true, true],
+  				[false, false, false, false, true],
+  				[true, true, true, true, true]]
+  		},
+  		{ 
+  			name: 'Small Frame', 
+  			color: 'Red',
+  			rgb: [255,0,0],
+  			fontColor: 'black',
+  			rules: 'A small frame.', 
+  			selected: [
+  				[false, false, false, false, false],
+  				[false, true, true, true, false],
+  				[false, true, false, true, false],
+  				[false, true, true, true, false],
+  				[false, false, false, false, false]]
+  		},
+  		{ 
+  			name: 'Blackout', 
+  			color: 'Purple',
+  			rgb: [136,68,204],
+  			fontColor: 'white',
+  			rules: 'All 25 spaces covered.', 
+  			selected: [
+  				[true, true, true, true, true],
+  				[true, true, true, true, true],
+  				[true, true, true, true, true],
+  				[true, true, true, true, true],
+  				[true, true, true, true, true]]
+  		}
+  	]
+
+
     function initState() {
     	const header=  [
-    		{ text:'B', header: true },
+    		{ text: 'B', header: true },
     		{ text: 'I', header: true },
-    		{ text:'N', header: true },
-    		{ text:'G', header: true },
-    		{ text:'O', header: true}
+    		{ text: 'N', header: true },
+    		{ text: 'G', header: true },
+    		{ text: 'O', header: true}
     	]
 			let values= [header]
 			for (let i=0; i < 15; i++) {
@@ -40,7 +174,40 @@
 
 			return { current: '', previous: '', values: values }
 		}
-		const state = initState()
+		const gameState = initState()
+    const currentlyPlayingState = {}
+
+		function CurrentlyPlayingGame() {
+			function GameCell(p) {
+				return <td className={p.set ? "selected" : "notSelected"}>    </td>
+			}
+
+			const rows = currentlyPlayingState.selected == null ? null : currentlyPlayingState.selected.map(r => { return <tr><GameCell set={r[0]} /><GameCell set={r[1]} /><GameCell set={r[2]} /><GameCell set={r[3]} /><GameCell set={r[4]} /></tr> })
+			const currentName = currentlyPlayingState.name == null ? '' : currentlyPlayingState.name
+			const options = games.map(k => { return <option selected={k.name===currentName} value={k.name}>{k.name}</option> })
+			let cardColorStyle={}
+			if (currentlyPlayingState.color) {
+				cardColorStyle = {
+					backgroundColor: "rgb(" + currentlyPlayingState.rgb.toString() + ")",
+					color: currentlyPlayingState.fontColor || 'black',
+					padding: '5px'
+				}
+			}
+
+			return (
+				<div id="currentGame">
+					<p>Current Game: 
+						<select onChange={event => setCurrentlyPlayingState(event)}>
+						  <option disabled={true} selected={true}>-- select a game --</option>
+						  {options}
+						</select>
+					</p>
+					<p>Rules: {currentlyPlayingState.rules == null ? '' : currentlyPlayingState.rules}</p>
+					<p>Card Color: <span style={cardColorStyle}>&nbsp;{currentlyPlayingState.color == null ? '' : currentlyPlayingState.color}&nbsp;</span></p>
+					<p>Example: <table id="currentGameTable">{rows}</table>
+					</p>
+				</div>)
+		}
 
     function Cell(props) {
     	    	return props.header 
@@ -54,8 +221,8 @@
   		return (<tr>{contents}</tr>)
   	}
 
-  	function Bingo(props) {
-  		const contents = state.values.map(c=> {
+  	function Bingo() {
+  		const contents = gameState.values.map(c=> {
   			return (
   				<Row columns={c} />
   			)
@@ -65,14 +232,17 @@
   			<div id="content">
   				<div>
 		  			<div id="table">
-		  				<table>
+		  				<table id="selectedTable">
 		  					{contents}
 		  				</table>
 		  			</div>
 		  			<div id="state">
+		  				<div>
+		  				  <CurrentlyPlayingGame />
+		  				</div>
 			  			<div>
-			  				<div className="current">Current: {state.current}</div>
-			  				<div className="previous">Previous: {state.previous}</div>
+			  				<div className="current">Current: {gameState.current}</div>
+			  				<div className="previous">Previous: {gameState.previous}</div>
 			  			</div>
 		  			</div>
 	  			</div>
@@ -83,9 +253,15 @@
   		)
   	}
 
+  	function setCurrentlyPlayingState(event) {
+  		const newGame = games.find(e=> e.name === event.target.value)
+  		Object.assign(currentlyPlayingState, newGame)
+  		renderApp()
+  	}
+
   	function setToggled(props) {
-  		state.values[props.row][props.column].selected = !state.values[props.row][props.column].selected
-  		setState({current: props.text, previous: state.current})
+  		gameState.values[props.row][props.column].selected = !gameState.values[props.row][props.column].selected
+  		setState({current: props.text, previous: gameState.current})
   	}
 
   	function resetState() {
@@ -94,7 +270,7 @@
   	}
 
     function setState(newState) {
-    	Object.assign(state, newState)
+    	Object.assign(gameState, newState)
     	renderApp()
     }
 

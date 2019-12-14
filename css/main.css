@@ -8,23 +8,21 @@ body {
     color:#333
 }
 
-div,table { 
-    margin: auto;
+div, body {
+    background-color: rgb(204,204,204);
 }
 
-table {
-    border-width: 2px;
-    border-color: rgb(0, 0, 0);
-    border-style: solid;
-    width:80%;
+div,table { 
+    margin: auto;
 }
 
 th {
     border-width: 2px;
     border-color: rgb(0, 0, 0);
     border-style: solid;
+    background-color: rgb(146,0,0);
     font-weight: 800;
-    margin: 10px;
+    color: rgb(255,255,255);
 }
 
 td {
@@ -32,22 +30,28 @@ td {
     border-color: rgb(0, 0, 0);
     border-style: solid;
     align-content: center;
-    margin: 10px;
-    width: 20%;
-    
+    width: 10%;
 }
 
 button {
     font-size: 36px;
     border-width: 0px;
     background-color: transparent;
-    width:100%;
+    width: 100%;
     height: 100%;
+    padding: 0px;
     outline-style: none;
 }
 
-.selected,.notSelected {
-    
+select {
+    font-size: 20px;
+    border-width: 0px;
+    background-color: transparent;
+    outline: none;
+}
+
+option {
+    outline: none;
 }
 
 .selected {
@@ -59,7 +63,8 @@ button {
 }
 
 .current {
-    margin-top: 20px;
+    clear: both;
+    padding-top: 40px;
 }
 
 .previous {
@@ -80,7 +85,6 @@ button {
 }
 
 #content {
-    background: #FFFFFF;
     width: 90%;
     padding-top: 20px;
 }
@@ -99,6 +103,30 @@ button {
     margin-left: 10%;
     margin-top: 10%;
     float:right;
+}
+
+#selectedTable {
+    border-width: 2px;
+    border-color: rgb(0, 0, 0);
+    border-style: solid;
+    width:80%;
+}
+
+#currentGameTable {
+    border-width: 2px;
+    border-color: rgb(0, 0, 0);
+    border-style: solid;
+    float:right;
+    width:20%;
+}
+
+#currentGame p {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+#currentGameTable td {
+    padding: 10px;
 }
 
 .resetButton {

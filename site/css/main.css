@@ -4,7 +4,6 @@
 
 body {
     font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 36px;
     color:#333
 }
 
@@ -31,6 +30,7 @@ td {
     border-style: solid;
     align-content: center;
     width: 10%;
+    font-size: 40px;
 }
 
 button {
@@ -65,11 +65,12 @@ option {
 .current {
     clear: both;
     padding-top: 40px;
+    font-size: 60px;
 }
 
 .previous {
-    font-size: 14px;
-    margin-top: 24px;
+    font-size: 34px;
+    margin-top: 44px;
 }
 
 #wrapper {
@@ -121,7 +122,7 @@ option {
 }
 
 #currentGame p {
-    font-size: 20px;
+    font-size: 25px;
     margin-bottom: 20px;
 }
 
